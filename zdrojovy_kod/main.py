@@ -29,7 +29,9 @@ def main() -> None:
     # Rychlá kontrola – vypíše prvních pár řádků
     print(model.data.head())
 
+    # 2 a 2b. uloha
     graphic_analysis(model)
+    
     # Tady pak můžeš volat další analýzy, např. graphic_analysis.run(model)
 
 
