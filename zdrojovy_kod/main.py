@@ -1,6 +1,7 @@
 import os
 from read_data import read_data
 from graphic_analysis import graphic_analysis
+from parametric_analysis import vypocet_odhadu_normalnich_parametru
 
 
 
