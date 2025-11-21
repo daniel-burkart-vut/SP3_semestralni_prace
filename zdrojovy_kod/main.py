@@ -1,48 +1,34 @@
-import argparse
-from pathlib import Path
-import yaml
-from graphic_analysis import graphic_analysis
+import os
 from read_data import read_data
 
-# třída pro data o celém modelu
-class ModelData:
-    def __init__(self, settings):
-        self.input_format = settings.get("input_format", "structured_csv")
-        self.input_file = settings.get("input_file", "vstupni_data.csv")
-        self.tasks = settings.get("tasks", ["none"])
-        self.data = None  # zde budou uložena načtená data
 
-# ---------------------------------------------------------
-# --------------- VSTUPNÍ BOD PROGRAMU --------------------
-# ---------------------------------------------------------
-if __name__ == "__main__":
-    
-    # Parsování argumetu - jméno vstupního souboru
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--input", default="settings.yaml")
-    args = parser.parse_args()
+class Model:
+    def __init__(self) -> None:
+        # Projektový root = o jeden adresář výše než tento soubor
+        base_dir = os.path.dirname(os.path.dirname(__file__))
 
-    # Načtení vstupních dat ze souboru YAML
-    settings_path = Path(args.input)
-    with open(settings_path, 'r') as file:
-        settings = yaml.safe_load(file)
-    
-    # načtení parametrů ze settings
-    model = ModelData(settings)
-    # načtení dat z csv, txt... podle specifikace v settings
+        # Tady natvrdo řekneme, že vstup je CSV v rootu projektu
+        self.input_format = "structured_csv"
+        self.input_file = os.path.join(base_dir, "vstupni_data.csv")
+
+        # Případně sem můžeš přidat další „úkoly“
+        self.tasks = ["none"]
+
+        # Sem si uložíme načtená data (DataFrame)
+        self.data = None
+
+
+def main() -> None:
+    model = Model()
+
+    # Načti data z CSV
     model.data = read_data(model)
 
-    # provedení jednotlivých úloh podle specifikace v settings
-    tasks = model.tasks
-    if tasks.include("none"):
-        exit("Nezpracovávají se žádné úlohy, konec")
-    if tasks.inlude("2_graphic_analysis"):
-        graphic_analysis(model)
-    if tasks.include("4_normal_distribution_parameters"):
-        pass
-    if tasks.include("7_median_equality_test"):
-        pass
-    if tasks.include("10_regression_significance_test"):
-        pass
+    # Rychlá kontrola – vypíše prvních pár řádků
+    print(model.data.head())
 
-    exit("Všechny zadané úlohy byly provedeny, konec")
+    # Tady pak můžeš volat další analýzy, např. graphic_analysis.run(model)
+
+
+if __name__ == "__main__":
+    main()
