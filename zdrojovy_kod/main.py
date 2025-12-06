@@ -4,6 +4,7 @@ from graphic_analysis import graphic_analysis
 from parametric_analysis import compute_normal_parameter_estimates
 from asymptotic_median_ratio import asymptotic_median_ratio
 from ks_median_test import ks_median_test_children_vs_adults
+from test_shodnosti_medianu import Wilcoxon
 
 
 
@@ -42,7 +43,10 @@ def main() -> None:
     # ks_median_test_children_vs_adults(model, column="poměr")
 
     # Uloha 5: Asymptotické rozdělení mediánu poměru X/Y
-    asymptotic_median_ratio(model, column_x="A", column_y="B")
+    #asymptotic_median_ratio(model, column_x="A", column_y="B")
+
+    # Uloha 6: test shodnosti medianu X/Y pro deti a dospele 
+    # Wilcoxon(model, column="poměr", alpha=0.05)
 
     
     # Tady pak můžeš volat další analýzy, např. graphic_analysis.run(model)
